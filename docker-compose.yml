@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: oscar
+      POSTGRES_USER: oscar
+      POSTGRES_PASSWORD: oscar
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  api:
+    build: ./api
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/oscar
+      SPRING_DATASOURCE_USERNAME: oscar
+      SPRING_DATASOURCE_PASSWORD: oscar
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
