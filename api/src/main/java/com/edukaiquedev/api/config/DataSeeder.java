@@ -16,11 +16,11 @@ public class DataSeeder {
         return args -> {
             if (repository.count() == 0) {
                 repository.saveAll(List.of(
+                    new User(null, "admin", "admin123", true),
                     new User(null, "user1", "pass1", true),
                     new User(null, "user2", "pass2", true),
-                    new User(null, "user3", "pass3", true),
-                    new User(null, "user4", "pass4", false),
-                    new User(null, "user5", "pass5", false)
+                    new User(null, "user3", "pass3", false),
+                    new User(null, "user4", "pass4", false)
                 ));
                 System.out.println("Banco de dados semeado com 5 usuários.");
             }
