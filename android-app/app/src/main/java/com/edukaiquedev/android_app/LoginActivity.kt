@@ -52,6 +52,7 @@ class LoginActivity : AppCompatActivity() {
                     // Passa o login para exibir na tela de boas-vindas
                     intent.putExtra("LOGIN_USUARIO", login)
                     startActivity(intent)
+                    // finish() remove a LoginActivity da pilha; o botão voltar não retorna ao login
                     finish()
                 } else {
                     Toast.makeText(

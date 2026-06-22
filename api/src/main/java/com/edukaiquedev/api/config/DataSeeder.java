@@ -14,8 +14,10 @@ public class DataSeeder {
     @Bean
     CommandLineRunner iniciarBanco(UserRepository repository) {
         return args -> {
-            // Só popula se o banco estiver vazio para não duplicar ao reiniciar
+            // Só popula se o banco estiver vazio para não duplicar ao reiniciar o container
             if (repository.count() == 0) {
+                // Os 3 primeiros já votaram (votou=true); ana e pedro ainda não (votou=false)
+                // Isso permite testar o fluxo de votação com ana e pedro
                 repository.saveAll(List.of(
                     new User(null, "admin",  "admin123", true),
                     new User(null, "maria",  "maria123", true),

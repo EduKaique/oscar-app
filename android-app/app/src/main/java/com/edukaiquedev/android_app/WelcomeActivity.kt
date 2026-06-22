@@ -13,6 +13,7 @@ class WelcomeActivity : AppCompatActivity() {
         binding = ActivityWelcomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Fallback para "Usuário" caso o extra não venha preenchido (navegação direta, testes)
         val loginUsuario = intent.getStringExtra("LOGIN_USUARIO") ?: "Usuário"
         binding.tvBemVindo.text = "Bem-vindo, $loginUsuario!"
     }

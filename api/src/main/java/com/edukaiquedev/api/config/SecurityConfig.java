@@ -14,10 +14,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+            // CSRF desabilitado porque a API é consumida por um app mobile (sem sessão de navegador)
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
-                // Apenas /login é público; o resto exige autenticação
-                .requestMatchers("/login", "/h2-console/**").permitAll()
+                // Apenas /login é público; qualquer outro endpoint exige autenticação
+                .requestMatchers("/login").permitAll()
                 .anyRequest().authenticated()
             );
         return http.build();
