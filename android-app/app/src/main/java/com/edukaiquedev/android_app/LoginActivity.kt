@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.edukaiquedev.android_app.api.LoginRequest
 import com.edukaiquedev.android_app.api.LoginResponse
 import com.edukaiquedev.android_app.api.RetrofitClient
+import com.edukaiquedev.android_app.util.TokenManager
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,13 +29,12 @@ class LoginActivity : AppCompatActivity() {
         btnEntrar = findViewById(R.id.btn_entrar)
         etLogin = findViewById(R.id.et_login)
         etSenha = findViewById(R.id.et_senha)
-        progressBar = findViewById(R.id.progressBar)
+        progressBar = findViewById(R.id.progress_bar)
 
         btnEntrar.setOnClickListener {
             val login = etLogin.text.toString().trim()
             val senha = etSenha.text.toString().trim()
 
-            // Bloqueia envio com campos em branco antes de abrir conexão
             if (login.isEmpty() || senha.isEmpty()) {
                 Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -49,18 +49,20 @@ class LoginActivity : AppCompatActivity() {
         progressBar.visibility = View.VISIBLE
 
         val requisicao = LoginRequest(login, senha)
-        RetrofitClient.instancia.login(requisicao).enqueue(object : Callback<LoginResponse> {
+        RetrofitClient.getInstancia(this).login(requisicao).enqueue(object : Callback<LoginResponse> {
 
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 btnEntrar.isEnabled = true
                 progressBar.visibility = View.GONE
 
                 if (response.isSuccessful && response.body()?.sucesso == true) {
+                    response.body()?.token?.let { token ->
+                        TokenManager(this@LoginActivity).salvarToken(token)
+                    }
                     val intent = Intent(this@LoginActivity, WelcomeActivity::class.java)
-                    // Passa o login para exibir na tela de boas-vindas
-                    intent.putExtra("LOGIN_USUARIO", login)
+                    intent.putExtra("nome_usuario", login)
+                    intent.putExtra("token_votacao", response.body()?.tokenVotacao ?: 0)
                     startActivity(intent)
-                    // finish() remove a LoginActivity da pilha; o botão voltar não retorna ao login
                     finish()
                 } else {
                     Toast.makeText(

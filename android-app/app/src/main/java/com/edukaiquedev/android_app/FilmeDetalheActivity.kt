@@ -2,11 +2,13 @@ package com.edukaiquedev.android_app
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.edukaiquedev.android_app.api.Filme
 import java.net.URL
 
@@ -15,6 +17,11 @@ class FilmeDetalheActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filme_detalhe)
+
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "Detalhes do Filme"
 
         @Suppress("DEPRECATION")
         val filme = intent.getSerializableExtra("filme") as? Filme
@@ -47,8 +54,17 @@ class FilmeDetalheActivity : AppCompatActivity() {
             getSharedPreferences("oscar_prefs", MODE_PRIVATE)
                 .edit()
                 .putString("voto_filme_id", filme.id)
+                .putString("voto_filme_nome", filme.nome)
                 .apply()
             Toast.makeText(this, "Voto registrado: ${filme.nome}", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

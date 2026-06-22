@@ -5,6 +5,7 @@ import com.edukaiquedev.api.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
@@ -12,18 +13,15 @@ import java.util.List;
 public class DataSeeder {
 
     @Bean
-    CommandLineRunner iniciarBanco(UserRepository repository) {
+    CommandLineRunner iniciarBanco(UserRepository repository, PasswordEncoder encoder) {
         return args -> {
-            // Só popula se o banco estiver vazio para não duplicar ao reiniciar o container
             if (repository.count() == 0) {
-                // Os 3 primeiros já votaram (votou=true); ana e pedro ainda não (votou=false)
-                // Isso permite testar o fluxo de votação com ana e pedro
                 repository.saveAll(List.of(
-                    new User(null, "admin",  "admin123", true),
-                    new User(null, "maria",  "maria123", true),
-                    new User(null, "joao",   "joao123",  true),
-                    new User(null, "ana",    "ana123",   false),
-                    new User(null, "pedro",  "pedro123", false)
+                    new User(null, "admin",  encoder.encode("senha123"), true,  null, null, null),
+                    new User(null, "maria",  encoder.encode("senha123"), true,  null, null, null),
+                    new User(null, "joao",   encoder.encode("senha123"), true,  null, null, null),
+                    new User(null, "ana",    encoder.encode("senha123"), false, null, null, null),
+                    new User(null, "pedro",  encoder.encode("senha123"), false, null, null, null)
                 ));
             }
         };

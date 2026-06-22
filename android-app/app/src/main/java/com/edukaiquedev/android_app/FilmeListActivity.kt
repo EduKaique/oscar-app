@@ -2,10 +2,12 @@ package com.edukaiquedev.android_app
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import com.edukaiquedev.android_app.api.Filme
 import com.edukaiquedev.android_app.api.FilmeRetrofitClient
@@ -22,10 +24,23 @@ class FilmeListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filme_list)
 
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "Melhor Filme"
+
         progressBar = findViewById(R.id.progressBar)
         recyclerView = findViewById(R.id.recyclerViewFilmes)
 
         carregarFilmes()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun carregarFilmes() {

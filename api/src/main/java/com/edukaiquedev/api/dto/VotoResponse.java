@@ -5,9 +5,9 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class LoginResponse {
+public class VotoResponse {
     private String mensagem;
     private boolean sucesso;
-    private String token;
-    private Integer tokenVotacao;
+    // null = sucesso; 1 = token inválido; 2 = já votou; 3 = usuário não encontrado
+    private Integer codigoErro;
 }

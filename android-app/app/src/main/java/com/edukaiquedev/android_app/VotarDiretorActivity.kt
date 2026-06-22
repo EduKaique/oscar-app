@@ -2,6 +2,7 @@ package com.edukaiquedev.android_app
 
 import android.content.Context
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
@@ -9,6 +10,7 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.edukaiquedev.android_app.api.Diretor
 import com.edukaiquedev.android_app.api.DiretorRetrofitClient
 import retrofit2.Call
@@ -24,6 +26,12 @@ class VotarDiretorActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_votar_diretor)
+
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "Melhor Diretor"
+
         progressBar = findViewById(R.id.progressBar)
         btnConfirmar = findViewById(R.id.btnConfirmar)
         radioGroupDiretores = findViewById(R.id.radioGroupDiretores)
@@ -114,5 +122,10 @@ class VotarDiretorActivity : AppCompatActivity() {
         for (i in 0 until radioGroupDiretores.childCount) {
             radioGroupDiretores.getChildAt(i).isEnabled = false
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) { finish(); return true }
+        return super.onOptionsItemSelected(item)
     }
 }
