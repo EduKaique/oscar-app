@@ -9,4 +9,10 @@ interface ApiService {
 
     @POST("login")
     fun login(@Body requisicao: LoginRequest): Call<LoginResponse>
+
+    @POST("logout")
+    fun logout(): Call<Map<String, String>>
+
+    @POST("voto")
+    fun confirmarVoto(@Body voto: VotoRequest): Call<VotoResponse>
 }

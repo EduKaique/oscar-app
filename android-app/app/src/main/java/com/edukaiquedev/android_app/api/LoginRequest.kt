@@ -1,6 +1,8 @@
 package com.edukaiquedev.android_app.api
 
+import com.google.gson.annotations.SerializedName
+
 data class LoginRequest(
-    val login: String,
-    val senha: String
+    @SerializedName("login") val login: String,
+    @SerializedName("senha") val senha: String
 )

@@ -2,47 +2,61 @@ package com.edukaiquedev.android_app
 
 import android.content.Context
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
+import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.edukaiquedev.android_app.api.Diretor
 import com.edukaiquedev.android_app.api.DiretorRetrofitClient
-import com.edukaiquedev.android_app.databinding.ActivityVotarDiretorBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class VotarDiretorActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityVotarDiretorBinding
+    private lateinit var progressBar: ProgressBar
+    private lateinit var btnConfirmar: Button
+    private lateinit var radioGroupDiretores: RadioGroup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityVotarDiretorBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_votar_diretor)
+
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "Melhor Diretor"
+
+        progressBar = findViewById(R.id.progressBar)
+        btnConfirmar = findViewById(R.id.btnConfirmar)
+        radioGroupDiretores = findViewById(R.id.radioGroupDiretores)
 
         carregarDiretores()
 
-        binding.btnConfirmar.setOnClickListener {
+        btnConfirmar.setOnClickListener {
             confirmarVoto()
         }
     }
 
     private fun carregarDiretores() {
-        binding.progressBar.visibility = View.VISIBLE
+        progressBar.visibility = View.VISIBLE
         // Botão desabilitado enquanto a lista não carrega para evitar confirmação sem opções
-        binding.btnConfirmar.isEnabled = false
+        btnConfirmar.isEnabled = false
 
         DiretorRetrofitClient.instancia.buscarDiretores().enqueue(object : Callback<List<Diretor>> {
 
             override fun onResponse(call: Call<List<Diretor>>, response: Response<List<Diretor>>) {
-                binding.progressBar.visibility = View.GONE
+                progressBar.visibility = View.GONE
 
                 if (response.isSuccessful) {
                     val diretores = response.body() ?: emptyList()
                     montarRadioGroup(diretores)
-                    binding.btnConfirmar.isEnabled = true
+                    btnConfirmar.isEnabled = true
                 } else {
                     Toast.makeText(
                         this@VotarDiretorActivity,
@@ -53,7 +67,7 @@ class VotarDiretorActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<List<Diretor>>, t: Throwable) {
-                binding.progressBar.visibility = View.GONE
+                progressBar.visibility = View.GONE
                 Toast.makeText(
                     this@VotarDiretorActivity,
                     "Sem conexão com o servidor",
@@ -65,7 +79,7 @@ class VotarDiretorActivity : AppCompatActivity() {
 
     private fun montarRadioGroup(diretores: List<Diretor>) {
         // Remove views anteriores para evitar duplicatas caso o método seja chamado novamente
-        binding.radioGroupDiretores.removeAllViews()
+        radioGroupDiretores.removeAllViews()
 
         diretores.forEach { diretor ->
             val opcao = RadioButton(this)
@@ -75,12 +89,12 @@ class VotarDiretorActivity : AppCompatActivity() {
             opcao.textSize = 16f
             // Padding vertical maior facilita o toque em telas pequenas
             opcao.setPadding(8, 24, 8, 24)
-            binding.radioGroupDiretores.addView(opcao)
+            radioGroupDiretores.addView(opcao)
         }
     }
 
     private fun confirmarVoto() {
-        val idSelecionado = binding.radioGroupDiretores.checkedRadioButtonId
+        val idSelecionado = radioGroupDiretores.checkedRadioButtonId
 
         // RadioGroup retorna -1 quando nenhuma opção foi marcada
         if (idSelecionado == -1) {
@@ -88,7 +102,7 @@ class VotarDiretorActivity : AppCompatActivity() {
             return
         }
 
-        val botaoSelecionado = findViewById<RadioButton>(idSelecionado)
+        val botaoSelecionado = radioGroupDiretores.findViewById<RadioButton>(idSelecionado)
         val nomeDiretor = botaoSelecionado.text.toString()
 
         // SharedPreferences persiste o voto localmente; o envio ao servidor fica para etapa futura
@@ -100,13 +114,18 @@ class VotarDiretorActivity : AppCompatActivity() {
         Toast.makeText(this, "Voto em \"$nomeDiretor\" registrado!", Toast.LENGTH_LONG).show()
 
         // Bloqueia a tela após confirmação — voto não pode ser alterado localmente
-        binding.btnConfirmar.isEnabled = false
+        btnConfirmar.isEnabled = false
         bloquearOpcoes()
     }
 
     private fun bloquearOpcoes() {
-        for (i in 0 until binding.radioGroupDiretores.childCount) {
-            binding.radioGroupDiretores.getChildAt(i).isEnabled = false
+        for (i in 0 until radioGroupDiretores.childCount) {
+            radioGroupDiretores.getChildAt(i).isEnabled = false
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) { finish(); return true }
+        return super.onOptionsItemSelected(item)
     }
 }

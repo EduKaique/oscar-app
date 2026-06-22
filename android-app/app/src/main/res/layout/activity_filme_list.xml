@@ -12,19 +12,19 @@
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
         app:titleTextColor="@android:color/white"
-        app:collapseIcon="@android:color/white" />
+        app:navigationIconTint="@android:color/white" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="16dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Melhor Diretor"
+            android:text="Melhor Filme"
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_marginBottom="4dp" />
@@ -32,38 +32,24 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Escolha um diretor e confirme seu voto"
+            android:text="Toque em um filme para ver os detalhes e votar"
             android:textSize="14sp"
-            android:layout_marginBottom="24dp" />
+            android:layout_marginBottom="16dp" />
 
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
-        <!-- ScrollView garante que a lista de diretores funcione com qualquer quantidade -->
-        <ScrollView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewFilmes"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
-
-            <RadioGroup
-                android:id="@+id/radioGroupDiretores"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="16dp" />
-
-        </ScrollView>
-
-        <Button
-            android:id="@+id/btnConfirmar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Confirmar Voto"
-            android:layout_marginTop="16dp"
-            android:enabled="false" />
+            android:layout_weight="1"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     </LinearLayout>
 

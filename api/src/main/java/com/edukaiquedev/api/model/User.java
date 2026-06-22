@@ -24,4 +24,13 @@ public class User {
 
     // false = ainda pode votar, true = já exerceu o voto
     private boolean votou;
+
+    @Column(name = "token_votacao")
+    private Integer tokenVotacao;
+
+    @Column(name = "id_filme_votado")
+    private String idFilmeVotado;
+
+    @Column(name = "id_diretor_votado")
+    private String idDiretorVotado;
 }

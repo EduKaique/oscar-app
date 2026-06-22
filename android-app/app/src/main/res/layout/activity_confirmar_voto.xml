@@ -23,73 +23,71 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center_horizontal"
             android:padding="24dp">
 
-            <ImageView
-                android:id="@+id/iv_trofeu"
-                android:layout_width="160dp"
-                android:layout_height="160dp"
-                android:layout_marginBottom="16dp"
-                android:src="@drawable/trofeu"
-                android:contentDescription="Troféu do Oscar"
-                android:scaleType="fitCenter" />
-
             <TextView
-                android:id="@+id/tv_boas_vindas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:textSize="22sp"
+                android:text="Seus Votos"
+                android:textSize="18sp"
                 android:textStyle="bold"
-                android:gravity="center" />
+                android:layout_marginBottom="12dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Seu token de votação:"
-                android:textSize="14sp"
-                android:layout_marginBottom="4dp" />
+                android:text="Filme votado:"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tv_token_valor"
+                android:id="@+id/tv_nome_filme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                android:textSize="28sp"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Diretor votado:"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_nome_diretor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginBottom="24dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DDDDDD"
+                android:layout_marginBottom="24dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Insira seu token de votação:"
+                android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="?attr/colorPrimary" />
+                android:layout_marginBottom="8dp" />
 
-            <Button
-                android:id="@+id/btn_votar_filme"
+            <EditText
+                android:id="@+id/et_token"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:text="Votar Filme" />
+                android:inputType="number"
+                android:hint="Token recebido na tela de boas-vindas"
+                android:layout_marginBottom="32dp" />
 
             <Button
-                android:id="@+id/btn_votar_diretor"
+                android:id="@+id/btn_confirmar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:text="Votar Diretor" />
-
-            <Button
-                android:id="@+id/btn_confirmar_voto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
                 android:text="Confirmar Voto" />
 
-            <Button
-                android:id="@+id/btn_sair"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:text="Sair" />
-
         </LinearLayout>
-
     </ScrollView>
 
 </LinearLayout>
