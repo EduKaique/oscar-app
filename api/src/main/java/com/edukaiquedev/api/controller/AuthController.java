@@ -18,8 +18,13 @@ public class AuthController {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Endpoint de autenticação via POST.
+     * Recebe as credenciais, busca no banco de dados PostgreSQL (via Spring Data JPA)
+     * e valida a senha para permitir o acesso ao aplicativo.
+     */
     @PostMapping
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<LoginResponse> autenticar(@RequestBody LoginRequest loginRequest) {
         Optional<User> userOpt = userRepository.findByUsername(loginRequest.getUsername());
 
         if (userOpt.isPresent() && userOpt.get().getPassword().equals(loginRequest.getPassword())) {

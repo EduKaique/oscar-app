@@ -30,11 +30,16 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            performLogin(username, password)
+            realizarLogin(username, password)
         }
     }
 
-    private fun performLogin(username: String, String: String) {
+    /**
+     * Realiza a autenticação do usuário.
+     * Utiliza o Retrofit para fazer uma chamada assíncrona ao servidor Spring Boot.
+     * O método 'realizarLogin' envia o usuário e senha e trata a resposta de sucesso ou erro.
+     */
+    private fun realizarLogin(username: String, String: String) {
         val request = LoginRequest(username, String)
         RetrofitClient.instance.login(request).enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
