@@ -1,20 +1,25 @@
 package com.edukaiquedev.android_app
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.edukaiquedev.android_app.databinding.ActivityWelcomeBinding
 
 class WelcomeActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityWelcomeBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityWelcomeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_welcome)
 
+        val tvBemVindo = findViewById<TextView>(R.id.tv_bem_vindo)
         // Fallback para "Usuário" caso o extra não venha preenchido (navegação direta, testes)
         val loginUsuario = intent.getStringExtra("LOGIN_USUARIO") ?: "Usuário"
-        binding.tvBemVindo.text = "Bem-vindo, $loginUsuario!"
+        tvBemVindo.text = "Bem-vindo, $loginUsuario!"
+
+        val btnVotarFilmes = findViewById<Button>(R.id.btn_votar_filmes)
+        btnVotarFilmes.setOnClickListener {
+            startActivity(Intent(this, FilmeListActivity::class.java))
+        }
     }
 }

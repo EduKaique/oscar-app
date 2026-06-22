@@ -28,6 +28,22 @@
             android:name=".WelcomeActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".VotarDiretorActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".FilmeListActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".FilmeDetalheActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
