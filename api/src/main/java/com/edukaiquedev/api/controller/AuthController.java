@@ -22,7 +22,7 @@ public class AuthController {
     public ResponseEntity<LoginResponse> autenticar(@RequestBody LoginRequest req) {
         Optional<User> usuario = userRepository.findByLogin(req.getLogin());
 
-        // Compara senha em texto plano — suficiente para o escopo da disciplina
+        // Compara senha em texto plano
         if (usuario.isPresent() && usuario.get().getSenha().equals(req.getSenha())) {
             return ResponseEntity.ok(new LoginResponse("Login realizado com sucesso!", true));
         }
